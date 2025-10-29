@@ -5,7 +5,14 @@ import User from '@/lib/user';
 // GET - Fetch all users
 export async function GET() {
   try {
-    await connectDB();
+    const dbConnection = await connectDB();
+    
+    if (!dbConnection) {
+      return NextResponse.json(
+        { success: false, error: 'Database connection not available' },
+        { status: 503 }
+      );
+    }
 
     // Get all users
     const users = await User.find({}).select('-password').sort({ createdAt: -1 });
@@ -37,7 +44,14 @@ export async function GET() {
 // POST - Create new user
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
+    const dbConnection = await connectDB();
+    
+    if (!dbConnection) {
+      return NextResponse.json(
+        { success: false, error: 'Database connection not available' },
+        { status: 503 }
+      );
+    }
 
     const { username, email, user_type, password, confirmPassword } = await request.json();
 

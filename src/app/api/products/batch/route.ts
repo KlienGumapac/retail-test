@@ -4,7 +4,14 @@ import Product from "@/lib/product";
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
+    const dbConnection = await connectDB();
+    
+    if (!dbConnection) {
+      return NextResponse.json(
+        { success: false, error: 'Database connection not available' },
+        { status: 503 }
+      );
+    }
 
     const { productIds } = await request.json();
 

@@ -5,7 +5,14 @@ import CancellationCode from '@/lib/cancellationCode';
 // POST - Validate a cancellation code
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
+    const dbConnection = await connectDB();
+    
+    if (!dbConnection) {
+      return NextResponse.json(
+        { success: false, error: 'Database connection not available' },
+        { status: 503 }
+      );
+    }
     
     const body = await request.json();
     const { code } = body;

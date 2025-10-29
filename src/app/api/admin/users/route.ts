@@ -34,7 +34,14 @@ async function authenticateUser(request: NextRequest) {
 // GET - Fetch all users
 export async function GET() {
   try {
-    await connectDB();
+    const dbConnection = await connectDB();
+    
+    if (!dbConnection) {
+      return NextResponse.json(
+        { success: false, error: 'Database connection not available' },
+        { status: 503 }
+      );
+    }
 
     // Temporarily remove authentication to test
     // const authResult = await authenticateUser(request);
@@ -75,7 +82,14 @@ export async function GET() {
 // POST - Create new user
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
+    const dbConnection = await connectDB();
+    
+    if (!dbConnection) {
+      return NextResponse.json(
+        { success: false, error: 'Database connection not available' },
+        { status: 503 }
+      );
+    }
 
     // Temporarily remove authentication to test
     // const authResult = await authenticateUser(request);

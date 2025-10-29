@@ -5,7 +5,14 @@ import User from '@/lib/user';
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
+    const dbConnection = await connectDB();
+    
+    if (!dbConnection) {
+      return NextResponse.json(
+        { success: false, error: 'Database connection not available' },
+        { status: 503 }
+      );
+    }
 
     const { token } = await request.json();
 

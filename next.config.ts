@@ -6,8 +6,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true
   },
-  // Remove assetPrefix and basePath for development
-  distDir: 'out'
+  // Remove distDir for Vercel deployment
+  // distDir: 'out'
 };
 
 export default nextConfig;
